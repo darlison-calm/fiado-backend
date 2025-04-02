@@ -1,21 +1,39 @@
 package com.fiado.domain.user;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(
+        name = "users"
+)
 public class UserEntity {
-    private String fullName;
-    private String email;
-    private String password;
-    private String username;
-    private String phoneNumber;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    private UUID id;
+
+    @NotBlank(message = "Nome completo é obrigatório")
+    private String fullName;
+
+    @Email
+    @Column(unique = true)
+    @NotBlank(message = "Email é obrigatório")
+    private String email;
+
+    @NotBlank(message = "Senha é obrigatório")
+    private String password;
+
+    @Column(unique = true)
+    private String username;
+
+    @Column(unique = true)
+    @NotBlank(message = "Celular é obrigatório")
+    private String phoneNumber;
 }
