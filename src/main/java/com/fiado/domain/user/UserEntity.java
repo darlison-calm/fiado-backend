@@ -1,10 +1,15 @@
 package com.fiado.domain.user;
 
+import com.fiado.domain.phone.ValidPhone;
+import com.fiado.domain.phone.PhoneNumberEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -12,28 +17,40 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(
-        name = "users"
+        name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"phoneNumber_value", "phoneNumber_locale"})
+        }
 )
 public class UserEntity {
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
-    @NotBlank(message = "Nome completo é obrigatório")
+    @Column(nullable = false)
     private String fullName;
 
-    @Email
-    @Column(unique = true)
-    @NotBlank(message = "Email é obrigatório")
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Senha é obrigatório")
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true)
     private String username;
 
-    @Column(unique = true)
-    @NotBlank(message = "Celular é obrigatório")
-    private String phoneNumber;
+    @Embedded()
+    @AttributeOverrides({
+            @AttributeOverride(name = "value", column = @Column(name = "phoneNumber_value")),
+            @AttributeOverride(name = "locale", column = @Column(name = "phoneNumber_locale"))
+    })
+    private PhoneNumberEntity phoneNumber;
+
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 }
