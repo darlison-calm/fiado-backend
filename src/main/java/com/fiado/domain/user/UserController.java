@@ -1,6 +1,8 @@
 package com.fiado.domain.user;
 
-import com.fiado.domain.user.dto.UserCreateDto;
+import com.fiado.domain.user.dto.CreateUserDto;
+
+import com.fiado.domain.user.dto.UserDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,9 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<String> addUser(@Valid @RequestBody UserCreateDto user) {
-        UserEntity savedUser = userService.createUser(user);
-        return ResponseEntity.ok(savedUser.toString());
+    ResponseEntity<String> registerUser(@Valid @RequestBody CreateUserDto user) {
+        UserDto savedUser = userService.createUser(user);
+        return ResponseEntity.ok("Usuário cadastrado com sucesso");
     }
 
     @GetMapping

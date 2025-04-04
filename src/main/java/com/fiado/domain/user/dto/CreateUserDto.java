@@ -5,7 +5,8 @@ import com.fiado.domain.phone.ValidPhone;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record UserCreateDto(
+
+public record CreateUserDto(
         @NotBlank(message = "Nome é obrigatório")
         String fullName,
 

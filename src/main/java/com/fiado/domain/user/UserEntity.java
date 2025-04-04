@@ -1,9 +1,8 @@
 package com.fiado.domain.user;
 
-import com.fiado.domain.phone.ValidPhone;
+
 import com.fiado.domain.phone.PhoneNumberEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -30,14 +29,15 @@ public class UserEntity {
     @Column(nullable = false)
     private String fullName;
 
+    @Column(unique = true)
+    private String username;
+
+
     @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
-
-    @Column(unique = true)
-    private String username;
 
     @Embedded()
     @AttributeOverrides({
