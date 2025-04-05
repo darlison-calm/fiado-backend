@@ -1,7 +1,8 @@
-package com.fiado.domain.user;
+package com.fiado.domain.user.entities;
 
 
 import com.fiado.domain.phone.PhoneNumberEntity;
+import com.fiado.domain.user.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,7 +19,9 @@ import java.util.UUID;
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = {"phoneNumber_value", "phoneNumber_locale"})
+                @UniqueConstraint(columnNames = {"phoneNumber_value", "phoneNumber_locale"} , name = "users_unique_phone_number_idx"),
+                @UniqueConstraint(columnNames =  {"email"}, name = "users_unique_email_idx"),
+                @UniqueConstraint(columnNames = {"username"}, name = "users_unique_username_idx")
         }
 )
 public class UserEntity {
@@ -29,14 +32,13 @@ public class UserEntity {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(unique = true)
+    @Column()
     private String username;
 
-
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String password;
 
     @Embedded()
@@ -46,8 +48,11 @@ public class UserEntity {
     })
     private PhoneNumberEntity phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    private RoleName role;
+
     @CreationTimestamp
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp

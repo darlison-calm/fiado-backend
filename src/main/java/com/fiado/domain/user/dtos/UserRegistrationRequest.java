@@ -1,4 +1,4 @@
-package com.fiado.domain.user.dto;
+package com.fiado.domain.user.dtos;
 
 import com.fiado.domain.phone.PhoneNumberEntity;
 import com.fiado.domain.phone.ValidPhone;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 
-public record CreateUserDto(
+public record UserRegistrationRequest(
         @NotBlank(message = "Nome é obrigatório")
         String fullName,
 
