@@ -1,4 +1,4 @@
-package com.fiado.domain.user.errors;
+package com.fiado.domain.infra;
 
 import lombok.Getter;
 

@@ -1,5 +1,5 @@
 package com.fiado.domain.infra;
-import com.fiado.domain.user.errors.ConstraintsViolationException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
