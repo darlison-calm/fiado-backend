@@ -21,7 +21,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/registration")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest user) {
         UserDto savedUser = userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
