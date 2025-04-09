@@ -1,12 +1,9 @@
-package com.fiado.domain.user.repositories;
+package com.fiado.domain.user;
 
 import com.fiado.domain.phone.PhoneNumberEntity;
-import com.fiado.domain.user.entities.UserEntity;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository

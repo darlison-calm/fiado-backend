@@ -1,4 +1,4 @@
-package com.fiado.domain.user.entities;
+package com.fiado.domain.user;
 
 
 import com.fiado.domain.phone.PhoneNumberEntity;

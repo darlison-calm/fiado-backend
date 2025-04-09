@@ -1,7 +1,7 @@
 package com.fiado.domain.user.mappers;
 
 import com.fiado.domain.user.dtos.UserRegistrationRequest;
-import com.fiado.domain.user.entities.UserEntity;
+import com.fiado.domain.user.UserEntity;
 import org.mapstruct.Mapper;
 import com.fiado.domain.user.dtos.UserDto;
 

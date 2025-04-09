@@ -1,10 +1,8 @@
-package com.fiado.domain.user.services;
+package com.fiado.domain.user;
 
 import com.fiado.domain.infra.ConstraintsViolationException;
 import com.fiado.domain.user.exception.UserConstraintErrorHandler;
 import com.fiado.domain.user.mappers.UserMapper;
-import com.fiado.domain.user.repositories.UserRepository;
-import com.fiado.domain.user.entities.UserEntity;
 import com.fiado.domain.user.dtos.UserRegistrationRequest;
 import com.fiado.domain.user.dtos.UserDto;
 import com.fiado.domain.user.enums.RoleName;

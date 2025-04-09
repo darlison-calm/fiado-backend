@@ -1,7 +1,6 @@
-package com.fiado.domain.user.controllers;
+package com.fiado.domain.user;
 
 import com.fiado.domain.user.dtos.UserRegistrationRequest;
-import com.fiado.domain.user.services.UserService;
 
 import com.fiado.domain.user.dtos.UserDto;
 import jakarta.validation.Valid;
