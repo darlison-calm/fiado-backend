@@ -1,13 +1,14 @@
 package com.fiado.domain.user.mappers;
 
-import com.fiado.domain.user.dtos.UserRegistrationRequest;
-import com.fiado.domain.user.UserEntity;
+import com.fiado.domain.user.dtos.UserRegisterDto;
+import com.fiado.domain.user.entities.UserEntity;
+
 import org.mapstruct.Mapper;
 import com.fiado.domain.user.dtos.UserDto;
 
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserEntity toEntity(UserRegistrationRequest dto);
+    UserEntity toEntity(UserRegisterDto dto);
     UserDto toDto(UserEntity entity);
 }

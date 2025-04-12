@@ -1,8 +1,8 @@
-package com.fiado.domain.user;
+package com.fiado.domain.user.entities;
 
 
 import com.fiado.domain.phone.PhoneNumberEntity;
-import com.fiado.domain.user.enums.RoleName;
+import com.fiado.domain.user.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -49,7 +49,7 @@ public class UserEntity {
     private PhoneNumberEntity phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    private RoleName role;
+    private RoleType role;
 
     @CreationTimestamp
     @Column(updatable = false)
