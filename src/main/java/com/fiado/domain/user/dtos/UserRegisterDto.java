@@ -5,11 +5,10 @@ import com.fiado.domain.phone.ValidPhone;
 import com.fiado.domain.user.validation.PasswordMatches;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Value;
 
 
 @PasswordMatches
-public record UserRegistrationRequest(
+public record UserRegisterDto(
 
         @NotBlank(message = "Nome é obrigatório")
         String fullName,

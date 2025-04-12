@@ -1,7 +1,7 @@
 package com.fiado.domain.user.dtos;
 
 import com.fiado.domain.phone.PhoneNumberEntity;
-import com.fiado.domain.user.enums.RoleName;
+import com.fiado.domain.user.enums.RoleType;
 
 import java.util.UUID;
 
@@ -17,5 +17,5 @@ public record UserDto(
 
         PhoneNumberEntity phoneNumber,
 
-        RoleName role
+        RoleType role
 ) {}
