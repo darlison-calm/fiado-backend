@@ -55,4 +55,8 @@ public class UserAuthenticated implements UserDetails {
     public UUID getId() {
         return  user.getId();
     }
+
+    public String getEmail() {
+        return user.getEmail();
+    }
 }
