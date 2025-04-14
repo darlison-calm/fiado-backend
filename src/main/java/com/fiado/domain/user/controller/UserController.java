@@ -3,7 +3,6 @@ package com.fiado.domain.user.controller;
 import com.fiado.domain.authentication.AuthService;
 import com.fiado.domain.user.dtos.UserLoginDto;
 import com.fiado.domain.user.dtos.UserRegisterDto;
-import com.fiado.domain.user.entities.UserAuthenticated;
 import com.fiado.domain.user.services.UserService;
 import com.fiado.domain.user.dtos.UserDto;
 import jakarta.validation.Valid;
@@ -11,15 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -48,8 +40,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUserInfo(Authentication authentication) {
-        Jwt jwt = (Jwt) authentication.getPrincipal();
-        UUID userId = UUID.fromString(jwt.getClaim("id"));
+        UUID userId = authService.getUserFromSession(authentication);
         return ResponseEntity.ok("User ID: " + userId);
     }
 }
