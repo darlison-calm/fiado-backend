@@ -37,9 +37,7 @@ public class SecurityConfiguration {
             "/users/auth",
             "/users/registration"
     };
-
     private final UserDetailsServiceImpl customUserDetailsService;
-
     @Value("${jwt.pub.key}")
     private RSAPublicKey key;
     @Value("${jwt.private.key}")
@@ -73,15 +71,6 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(customUserDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-
-    @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(key).build();
     }
@@ -95,6 +84,6 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(9);
+        return new BCryptPasswordEncoder(10);
     }
 }
