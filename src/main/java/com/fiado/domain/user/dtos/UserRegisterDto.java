@@ -10,9 +10,6 @@ import jakarta.validation.constraints.NotBlank;
 @PasswordMatches
 public record UserRegisterDto(
 
-        @NotBlank(message = "Nome é obrigatório")
-        String fullName,
-
         @NotBlank(message = "Email é obrigatório")
         @Email(message = "Email inválido")
         String email,

@@ -29,9 +29,6 @@ public class UserEntity {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
-    @Column(nullable = false)
-    private String fullName;
-
     @Column()
     private String username;
 
