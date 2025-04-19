@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -28,14 +30,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
-    @GetMapping
-    public String getMessage() {
-        return "Msg secreta";
-    }
-
     @PostMapping("/auth")
-    public String authenticate(@RequestBody UserLoginDto dto) {
-        return authService.authenticate(dto.login(), dto.password());
+    public ResponseEntity<Map<String, String>> authenticate(@RequestBody UserLoginDto dto) {
+        String token = authService.authenticate(dto.login(), dto.password());
+        Map<String, String> response = Map.of("token", token);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me")
