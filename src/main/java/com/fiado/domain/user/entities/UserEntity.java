@@ -29,7 +29,6 @@ public class UserEntity {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
-    @Column()
     private String username;
 
     @Column(nullable = false)
@@ -53,6 +52,5 @@ public class UserEntity {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
