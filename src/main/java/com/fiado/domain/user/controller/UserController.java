@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/auth")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody UserLoginDto dto) {
-        String token = authService.authenticate(dto.login(), dto.password());
+        String token = authService.authenticate(dto.loginMethod(), dto.password());
         Map<String, String> response = Map.of("token", token);
         return ResponseEntity.ok(response);
     }
