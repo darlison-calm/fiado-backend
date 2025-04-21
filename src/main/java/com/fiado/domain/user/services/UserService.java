@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Map;
@@ -26,6 +27,8 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+
+    @Transactional
     public UserDto registerUser(@NotNull UserRegisterDto dto) {
         try {
             UserEntity user = userMapper.toEntity(dto);

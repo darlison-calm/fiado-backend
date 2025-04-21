@@ -1,5 +1,6 @@
 package com.fiado.domain.clients;
 
+import com.fiado.domain.user.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +25,10 @@ public class ClientEntity {
     private String fullName;
 
     private String address;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id", name = "user_id")
+    private UserEntity user;
 
     @CreationTimestamp
     @Column(updatable = false)
