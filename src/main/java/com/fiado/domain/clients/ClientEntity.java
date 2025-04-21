@@ -20,11 +20,13 @@ import java.time.LocalDateTime;
 public class ClientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private long id;
+    private Long id;
 
     private String fullName;
 
     private String address;
+
+    private String phoneNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id", name = "user_id")
