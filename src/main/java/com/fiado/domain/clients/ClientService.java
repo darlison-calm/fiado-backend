@@ -8,12 +8,14 @@ import com.fiado.domain.clients.mapper.ClientMapper;
 import com.fiado.domain.user.entities.UserEntity;
 import com.fiado.domain.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+@Slf4j
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +64,8 @@ public class ClientService {
         ClientEntity client = clientRepository
                 .findByIdAndUserId(clientId, userId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
+        log.debug("Atualizando cliente: {}", newData);
+        log.debug("Atualizando cliente: {}", newData.fullName());
         client.setAddress(newData.address());
         client.setFullName(newData.fullName());
         client.setPhoneNumber(newData.phoneNumber());

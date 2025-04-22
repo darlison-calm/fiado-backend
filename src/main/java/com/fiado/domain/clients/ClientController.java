@@ -51,7 +51,7 @@ public class ClientController {
     }
 
     @PutMapping("/{clientId}")
-    public ResponseEntity<ClientResponseDto> updateClient(@PathVariable Long clientId, Authentication authentication, ClientRequestDto clientDto) {
+    public ResponseEntity<ClientResponseDto> updateClient(@PathVariable Long clientId, Authentication authentication, @RequestBody ClientRequestDto clientDto) {
         UUID userId = authService.getUserFromSession(authentication);
         ClientResponseDto client = clientService.updateClientIfBelongsToUser(clientId, userId, clientDto);
         return ResponseEntity.ok(client);
