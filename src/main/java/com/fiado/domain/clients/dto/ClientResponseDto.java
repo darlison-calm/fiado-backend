@@ -3,7 +3,7 @@ package com.fiado.domain.clients.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record ClientDto(
+public record ClientResponseDto(
         Long id,
         String fullName,
         String address,

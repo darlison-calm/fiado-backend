@@ -1,7 +1,8 @@
 package com.fiado.domain.clients;
 
 import com.fiado.domain.authentication.AuthService;
-import com.fiado.domain.clients.dto.ClientDto;
+import com.fiado.domain.clients.dto.ClientRequestDto;
+import com.fiado.domain.clients.dto.ClientResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -12,32 +13,33 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/users/clients")
 public class ClientController {
     private final ClientService clientService;
     private final AuthService authService;
 
-    @GetMapping("users/clients")
-    public ResponseEntity<List<ClientDto>> listClientsByUser(Authentication authentication) {
+    @GetMapping()
+    public ResponseEntity<List<ClientResponseDto>> listClientsByUser(Authentication authentication) {
         UUID userId = authService.getUserFromSession(authentication);
-        List<ClientDto> clients = clientService.getAllClientsByUser(userId);
+        List<ClientResponseDto> clients = clientService.getAllClientsByUser(userId);
         return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("users/clients/{clientId}")
-    public ResponseEntity<ClientDto> getClientForUser(@PathVariable Long clientId, Authentication authentication) {
+    @GetMapping("/{clientId}")
+    public ResponseEntity<ClientResponseDto> getClientForUser(@PathVariable Long clientId, Authentication authentication) {
         UUID userId = authService.getUserFromSession(authentication);
-        ClientDto client = clientService.getClientByIdForUser(clientId, userId);
+        ClientResponseDto client = clientService.getClientByIdForUser(clientId, userId);
         return ResponseEntity.ok(client);
     }
 
-    @PostMapping("users/clients")
-    public ResponseEntity<ClientDto> createClient(@RequestBody ClientEntity client, Authentication authentication) {
+    @PostMapping()
+    public ResponseEntity<ClientResponseDto> createClient(@RequestBody ClientRequestDto client, Authentication authentication) {
         UUID userId = authService.getUserFromSession(authentication);
-        ClientDto clientCreated = clientService.saveClient(client, userId);
+        ClientResponseDto clientCreated = clientService.saveClient(client, userId);
         return ResponseEntity.ok(clientCreated);
     }
 
-    @DeleteMapping("users/clients/{clientId}")
+    @DeleteMapping("/{clientId}")
     public ResponseEntity<Void> deleteClient(@PathVariable Long clientId, Authentication authentication) {
         UUID userId = authService.getUserFromSession(authentication);
         boolean deleted = clientService.deleteClientIfBelongsToUser(clientId, userId);
@@ -46,5 +48,12 @@ public class ClientController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{clientId}")
+    public ResponseEntity<ClientResponseDto> updateClient(@PathVariable Long clientId, Authentication authentication, ClientRequestDto clientDto) {
+        UUID userId = authService.getUserFromSession(authentication);
+        ClientResponseDto client = clientService.updateClientIfBelongsToUser(clientId, userId, clientDto);
+        return ResponseEntity.ok(client);
     }
 }

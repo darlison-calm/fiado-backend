@@ -1,7 +1,8 @@
 package com.fiado.domain.clients;
 
 
-import com.fiado.domain.clients.dto.ClientDto;
+import com.fiado.domain.clients.dto.ClientRequestDto;
+import com.fiado.domain.clients.dto.ClientResponseDto;
 import com.fiado.domain.clients.exceptions.ClientNotFoundException;
 import com.fiado.domain.clients.mapper.ClientMapper;
 import com.fiado.domain.user.entities.UserEntity;
@@ -22,15 +23,15 @@ public class ClientService {
     private final ClientMapper clientMapper;
 
     @Transactional
-    public ClientDto saveClient(ClientEntity clientEntity, UUID userId) {
+    public ClientResponseDto saveClient(ClientRequestDto clientDto, UUID userId) {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + userId));
-
+        ClientEntity clientEntity = clientMapper.toEntity(clientDto);
         clientEntity.setUser(user);
         return clientMapper.toDto(clientRepository.save(clientEntity));
     }
 
-    public List<ClientDto> getAllClientsByUser(UUID userId) {
+    public List<ClientResponseDto> getAllClientsByUser(UUID userId) {
         if (userId == null) {
             throw new IllegalArgumentException("ID do usuário não pode ser nulo");
         }
@@ -38,7 +39,7 @@ public class ClientService {
         return clientEntities.stream().map(clientMapper::toDto).collect(Collectors.toList());
     }
 
-    public ClientDto getClientByIdForUser(Long clientId, UUID userId) {
+    public ClientResponseDto getClientByIdForUser(Long clientId, UUID userId) {
         ClientEntity client = clientRepository
                 .findByIdAndUserId(clientId, userId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
@@ -50,10 +51,21 @@ public class ClientService {
         ClientEntity client = clientRepository
                 .findByIdAndUserId(clientId, userId)
                 .orElse(null);
-        if (client != null) {
-            clientRepository.delete(client);
-            return true;
-        }
-        return false;
+
+        if (client == null) return false;
+
+        clientRepository.delete(client);
+        return true;
+    }
+
+    public ClientResponseDto updateClientIfBelongsToUser(Long clientId, UUID userId, ClientRequestDto newData) {
+        ClientEntity client = clientRepository
+                .findByIdAndUserId(clientId, userId)
+                .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
+        client.setAddress(newData.address());
+        client.setFullName(newData.fullName());
+        client.setPhoneNumber(newData.phoneNumber());
+        ClientEntity updatedClient = clientRepository.save(client);
+        return clientMapper.toDto(updatedClient);
     }
 }
