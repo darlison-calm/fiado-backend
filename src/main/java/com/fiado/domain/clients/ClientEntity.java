@@ -22,6 +22,7 @@ public class ClientEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
 
+    @Column(nullable = false)
     private String fullName;
 
     private String address;
