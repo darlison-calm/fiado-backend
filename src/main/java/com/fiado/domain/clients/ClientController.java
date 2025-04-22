@@ -23,6 +23,13 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
+    @GetMapping("users/clients/{clientId}")
+    public ResponseEntity<ClientDto> getClientForUser(@PathVariable Long clientId, Authentication authentication) {
+        UUID userId = authService.getUserFromSession(authentication);
+        ClientDto client = clientService.getClientByIdForUser(clientId, userId);
+        return ResponseEntity.ok(client);
+    }
+
     @PostMapping("users/clients")
     public ResponseEntity<ClientDto> createClient(@RequestBody ClientEntity client, Authentication authentication) {
         UUID userId = authService.getUserFromSession(authentication);

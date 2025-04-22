@@ -2,6 +2,7 @@ package com.fiado.domain.clients;
 
 
 import com.fiado.domain.clients.dto.ClientDto;
+import com.fiado.domain.clients.exceptions.ClientNotFoundException;
 import com.fiado.domain.clients.mapper.ClientMapper;
 import com.fiado.domain.user.entities.UserEntity;
 import com.fiado.domain.user.repositories.UserRepository;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,17 +38,22 @@ public class ClientService {
         return clientEntities.stream().map(clientMapper::toDto).collect(Collectors.toList());
     }
 
-    public Optional<ClientEntity> getClientById(Long id) {
-        return clientRepository.findById(id);
+    public ClientDto getClientByIdForUser(Long clientId, UUID userId) {
+        ClientEntity client = clientRepository
+                .findByIdAndUserId(clientId, userId)
+                .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
+        return clientMapper.toDto(client);
     }
 
+    @Transactional
     public boolean deleteClientIfBelongsToUser(Long clientId, UUID userId) {
-        Optional<ClientEntity> client = clientRepository.findByIdAndUserId(clientId, userId);
-        if (client.isPresent()) {
-            clientRepository.delete(client.get());
+        ClientEntity client = clientRepository
+                .findByIdAndUserId(clientId, userId)
+                .orElse(null);
+        if (client != null) {
+            clientRepository.delete(client);
             return true;
         }
         return false;
     }
-
 }
