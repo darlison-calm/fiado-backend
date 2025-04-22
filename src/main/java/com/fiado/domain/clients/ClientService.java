@@ -64,8 +64,6 @@ public class ClientService {
         ClientEntity client = clientRepository
                 .findByIdAndUserId(clientId, userId)
                 .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
-        log.debug("Atualizando cliente: {}", newData);
-        log.debug("Atualizando cliente: {}", newData.fullName());
         client.setAddress(newData.address());
         client.setFullName(newData.fullName());
         client.setPhoneNumber(newData.phoneNumber());
