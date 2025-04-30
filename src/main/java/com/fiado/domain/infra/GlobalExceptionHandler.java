@@ -1,6 +1,7 @@
 package com.fiado.domain.infra;
 
 import com.fiado.domain.clients.exceptions.ClientNotFoundException;
+import com.fiado.domain.user.exception.DuplicateResourceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -28,11 +29,9 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
+    @ExceptionHandler(DuplicateResourceException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(ConstraintsViolationException.class)
-    public Map<String, String> handleMultipleConstraintsViolation(
-            ConstraintsViolationException ex
-    ) {
+    public Map<String, String> handleDuplicateResourceException(DuplicateResourceException ex) {
         return ex.getErrors();
     }
 
