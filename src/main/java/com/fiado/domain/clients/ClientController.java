@@ -3,6 +3,7 @@ package com.fiado.domain.clients;
 import com.fiado.domain.authentication.AuthService;
 import com.fiado.domain.clients.dto.ClientRequestDto;
 import com.fiado.domain.clients.dto.ClientResponseDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,7 +34,7 @@ public class ClientController {
     }
 
     @PostMapping()
-    public ResponseEntity<ClientResponseDto> createClient(@RequestBody ClientRequestDto client, Authentication authentication) {
+    public ResponseEntity<ClientResponseDto> createClient(@Valid @RequestBody ClientRequestDto client, Authentication authentication) {
         UUID userId = authService.getUserFromSession(authentication);
         ClientResponseDto clientCreated = clientService.saveClient(client, userId);
         return ResponseEntity.ok(clientCreated);

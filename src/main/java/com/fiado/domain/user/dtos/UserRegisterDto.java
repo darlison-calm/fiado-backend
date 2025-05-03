@@ -5,7 +5,6 @@ import com.fiado.domain.phone.ValidPhone;
 import com.fiado.domain.user.validation.PasswordMatches;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 
@@ -13,6 +12,7 @@ import jakarta.validation.constraints.Pattern;
 public record UserRegisterDto(
 
         @NotBlank(message = "Email é obrigatório")
+        @Pattern(regexp = "^[^\\s]+@[^\\s]+\\.[^\\s]+$", message = "O e-mail não pode conter espaços")
         @Email(message = "Email inválido")
         String email,
 
@@ -25,5 +25,6 @@ public record UserRegisterDto(
         @Pattern(regexp = "^[a-zA-Z0-9_-]{3,20}$|^$", message = "Nome de usuário deve ter entre 3 e 20 caracteres, contendo apenas letras, números, underscores ou hífens, ou ser vazio")
         String username,
 
-        @ValidPhone PhoneNumberEntity phoneNumber)
+        @ValidPhone
+        PhoneNumberEntity phoneNumber)
 { }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +38,12 @@ public class UserService {
         }
 
         if(!errors.isEmpty()) throw new DuplicateResourceException(errors);
+        String username = Optional.ofNullable(dto.username())
+                .filter(s -> !s.isBlank())
+                .orElse(null);
 
         UserEntity user = userMapper.toEntity(dto);
+        user.setUsername(username);
         user.setPassword(passwordEncoder.encode(dto.password()));
         user.setRole(RoleType.CUSTOMER);
         userRepository.save(user);
