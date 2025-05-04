@@ -1,6 +1,7 @@
 package com.fiado.domain.user.entities;
 
 
+import com.fiado.domain.clients.ClientEntity;
 import com.fiado.domain.phone.PhoneNumberEntity;
 import com.fiado.domain.user.enums.RoleType;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -29,7 +31,6 @@ public class UserEntity {
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
 
-    @Column()
     private String username;
 
     @Column(nullable = false)
@@ -48,11 +49,13 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<ClientEntity> clients;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(nullable = false)
     private LocalDateTime updatedAt;
 }

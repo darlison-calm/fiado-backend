@@ -1,23 +1,20 @@
 package com.fiado.domain.user.services;
-
-import com.fiado.domain.infra.ConstraintsViolationException;
 import com.fiado.domain.user.dtos.UserRegisterDto;
 import com.fiado.domain.user.entities.UserEntity;
 import com.fiado.domain.user.enums.RoleType;
-import com.fiado.domain.user.exception.UserConstraintErrorHandler;
+import com.fiado.domain.user.exception.DuplicateResourceException;
 import com.fiado.domain.user.mappers.UserMapper;
 import com.fiado.domain.user.repositories.UserRepository;
 import com.fiado.domain.user.dtos.UserDto;
-
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-
+import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,20 +23,30 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+
+    @Transactional
     public UserDto registerUser(@NotNull UserRegisterDto dto) {
-        try {
-            UserEntity user = userMapper.toEntity(dto);
-            user.setPassword(passwordEncoder.encode(dto.password()));
-            user.setRole(RoleType.CUSTOMER);
-            userRepository.save(user);
-            return userMapper.toDto(user);
-        } catch (DataIntegrityViolationException e) {
-            Map<String, String> errors = UserConstraintErrorHandler.parse(e);
-            if (!errors.isEmpty()) {
-                throw new ConstraintsViolationException(errors);
-            }
-            throw e;
+        Map<String, String> errors = new HashMap<>();
+        if (userRepository.existsByEmail(dto.email())) {
+            errors.put("email", "E-mail já está em uso");
         }
+        if (userRepository.existsByUsername(dto.username())) {
+            errors.put("username", "Nome de usuário já está em uso");
+        }
+        if (userRepository.existsByPhoneNumber(dto.phoneNumber())) {
+            errors.put("phoneNumber", "Telefone já está em uso");
+        }
+
+        if(!errors.isEmpty()) throw new DuplicateResourceException(errors);
+        String username = Optional.ofNullable(dto.username())
+                .filter(s -> !s.isBlank())
+                .orElse(null);
+        UserEntity user = userMapper.toEntity(dto);
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(dto.password()));
+        user.setRole(RoleType.CUSTOMER);
+        userRepository.save(user);
+        return userMapper.toDto(user);
     }
 
 }
