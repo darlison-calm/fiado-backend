@@ -9,6 +9,7 @@ public record ClientResponseDto(
         String address,
         String phoneNumber,
         UUID userId,
+        String observation,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {}

@@ -29,6 +29,8 @@ public class ClientEntity {
 
     private String phoneNumber;
 
+    private String observation;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id", name = "user_id")
     private UserEntity user;

@@ -8,6 +8,7 @@ public record ClientRequestDto(
         String fullName,
 
         String address,
-        String phoneNumber
+        String phoneNumber,
+        String observation
 ) {
 }

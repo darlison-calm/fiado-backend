@@ -41,7 +41,6 @@ public class UserService {
         String username = Optional.ofNullable(dto.username())
                 .filter(s -> !s.isBlank())
                 .orElse(null);
-
         UserEntity user = userMapper.toEntity(dto);
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(dto.password()));

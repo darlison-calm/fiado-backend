@@ -67,6 +67,7 @@ public class ClientService {
         client.setAddress(newData.address());
         client.setFullName(newData.fullName());
         client.setPhoneNumber(newData.phoneNumber());
+        client.setObservation(newData.observation());
         ClientEntity updatedClient = clientRepository.save(client);
         return clientMapper.toDto(updatedClient);
     }
