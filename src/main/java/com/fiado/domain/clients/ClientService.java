@@ -50,14 +50,11 @@ public class ClientService {
 
     @Transactional
     public boolean deleteClientIfBelongsToUser(Long clientId, UUID userId) {
-        ClientEntity client = clientRepository
-                .findByIdAndUserId(clientId, userId)
-                .orElse(null);
-
-        if (client == null) return false;
-
-        clientRepository.delete(client);
-        return true;
+        return clientRepository.findByIdAndUserId(clientId, userId).map(client -> {
+            clientRepository.delete(client);
+            return true;
+        })
+        .orElse(false);
     }
 
     public ClientResponseDto updateClientIfBelongsToUser(Long clientId, UUID userId, ClientRequestDto newData) {

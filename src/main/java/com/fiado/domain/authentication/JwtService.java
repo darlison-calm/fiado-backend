@@ -24,7 +24,7 @@ public class JwtService {
     }
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
-        long JWT_EXPIRE_TIME = 3600L;
+        long JWT_EXPIRE_TIME = 7200L;
         Instant expiry = now.plusSeconds(JWT_EXPIRE_TIME);
 
         UserAuthenticated user = (UserAuthenticated) authentication.getPrincipal();
