@@ -1,5 +1,4 @@
 package com.fiado.domain.clients;
-
 import com.fiado.domain.authentication.AuthService;
 import com.fiado.domain.clients.dto.ClientRequestDto;
 import com.fiado.domain.clients.dto.ClientResponseDto;
