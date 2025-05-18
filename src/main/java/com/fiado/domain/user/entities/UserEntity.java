@@ -3,18 +3,16 @@ package com.fiado.domain.user.entities;
 
 import com.fiado.domain.clients.ClientEntity;
 import com.fiado.domain.phone.PhoneNumberEntity;
+import com.fiado.domain.shared.BaseEntity;
 import com.fiado.domain.user.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Data
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -26,7 +24,8 @@ import java.util.UUID;
                 @UniqueConstraint(columnNames = {"username"}, name = "users_unique_username_idx")
         }
 )
-public class UserEntity {
+public class UserEntity extends BaseEntity {
+    @EqualsAndHashCode.Include
     @Id
     @UuidGenerator(style = UuidGenerator.Style.TIME)
     private UUID id;
@@ -51,11 +50,4 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ClientEntity> clients;
-
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
 }
