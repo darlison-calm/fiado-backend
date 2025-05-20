@@ -1,5 +1,5 @@
 package com.fiado.domain.sales.entities;
-import com.fiado.domain.sales.enums.IntallmentStatus;
+import com.fiado.domain.sales.enums.InstallmentStatus;
 import com.fiado.domain.shared.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,7 +28,7 @@ public class InstallmentEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private IntallmentStatus status;
+    private InstallmentStatus status;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal amountPaid;

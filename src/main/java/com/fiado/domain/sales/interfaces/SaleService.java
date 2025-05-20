@@ -1,10 +1,10 @@
 package com.fiado.domain.sales.interfaces;
 
 import com.fiado.domain.sales.entities.SaleEntity;
-import com.fiado.domain.sales.dtos.SaleCreateRequestDto;
+import com.fiado.domain.sales.dtos.CreateSaleRequestDto;
 
 import java.util.UUID;
 
 public interface SaleService {
-    SaleEntity createSale(SaleCreateRequestDto saleDto, UUID userId);
+    SaleEntity createSale(CreateSaleRequestDto saleDto, UUID userId);
 }
