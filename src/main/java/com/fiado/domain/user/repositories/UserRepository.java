@@ -3,6 +3,7 @@ package com.fiado.domain.user.repositories;
 import com.fiado.domain.phone.PhoneNumberEntity;
 import com.fiado.domain.user.entities.UserEntity;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

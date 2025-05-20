@@ -48,6 +48,15 @@ public class ClientService {
         return clientMapper.toDto(client);
     }
 
+    public ClientEntity getClientEntityByIdForUser(Long clientId, UUID userId) {
+        return clientRepository
+                .findByIdAndUserId(clientId, userId)
+                .orElseThrow(() -> new ClientNotFoundException("Cliente não encontrado"));
+    }
+
+
+
+
     @Transactional
     public boolean deleteClientIfBelongsToUser(Long clientId, UUID userId) {
         return clientRepository.findByIdAndUserId(clientId, userId).map(client -> {

@@ -1,6 +1,7 @@
 package com.fiado.domain.sales.entities;
 
 import com.fiado.domain.clients.ClientEntity;
+import com.fiado.domain.clients.dto.ClientResponseDto;
 import com.fiado.domain.sales.enums.SaleStatus;
 import com.fiado.domain.shared.BaseEntity;
 import com.fiado.domain.user.entities.UserEntity;
@@ -17,6 +18,10 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 public class SaleEntity extends BaseEntity {
+
+    public SaleEntity() {
+        this.installments = new ArrayList<>();
+    }
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,9 +48,8 @@ public class SaleEntity extends BaseEntity {
     @Column(nullable = false)
     private SaleStatus status;
 
-    @Column(nullable = false)
-    private boolean isInstallment;
-
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<InstallmentEntity> installments = new ArrayList<>();
+    private List<InstallmentEntity> installments;
+
+    private String description;
 }

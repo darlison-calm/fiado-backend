@@ -3,6 +3,7 @@ import com.fiado.domain.user.dtos.UserRegisterDto;
 import com.fiado.domain.user.entities.UserEntity;
 import com.fiado.domain.user.enums.RoleType;
 import com.fiado.domain.user.exception.DuplicateResourceException;
+import com.fiado.domain.user.exception.UserNotFoundException;
 import com.fiado.domain.user.mappers.UserMapper;
 import com.fiado.domain.user.repositories.UserRepository;
 import com.fiado.domain.user.dtos.UserDto;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -49,4 +51,7 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
+    public UserEntity getUser(UUID userId) {
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+    }
 }
