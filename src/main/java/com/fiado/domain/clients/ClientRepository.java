@@ -11,5 +11,6 @@ import java.util.UUID;
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     List<ClientEntity> findAllByUserId(UUID userId);
+    List<ClientEntity> findByFullNameContainingIgnoreCaseAndUserId(String name, UUID userId);
     Optional<ClientEntity> findByIdAndUserId(Long clientId, UUID userId);
 }

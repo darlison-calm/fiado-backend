@@ -56,4 +56,11 @@ public class ClientController {
         ClientResponseDto client = clientService.updateClientIfBelongsToUser(clientId, userId, clientDto);
         return ResponseEntity.ok(client);
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<ClientResponseDto>> searchClientsByName(@RequestParam String name, Authentication authentication) {
+        UUID userId = authService.getUserFromSession(authentication);
+        List<ClientResponseDto> clients = clientService.searchClientsByName(name, userId);
+        return ResponseEntity.ok(clients);
+    }
+
 }

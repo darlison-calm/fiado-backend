@@ -68,4 +68,15 @@ public class ClientService {
         ClientEntity updatedClient = clientRepository.save(client);
         return clientMapper.toDto(updatedClient);
     }
+
+    public List<ClientResponseDto> searchClientsByName(String name, UUID userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("ID do usuário não pode ser nulo");
+        }
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do cliente não pode estar vazio");
+        }
+        List<ClientEntity> clients = clientRepository.findByFullNameContainingIgnoreCaseAndUserId(name, userId);
+        return clients.stream().map(clientMapper::toDto).toList();
+    }
 }
